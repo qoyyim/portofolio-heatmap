@@ -81,17 +81,23 @@ function tileTone(asset: MarketAsset, range: MarketRange): string {
   return `tile--${metric.direction}-${metric.intensity}`;
 }
 
-function streakBorderColor(asset: MarketAsset, range: MarketRange): string | undefined {
+function streakBorderStyle(asset: MarketAsset, range: MarketRange): {
+  borderColor: string;
+  borderWidth: string;
+} | undefined {
   const metric = asset.metrics[range];
-  if (asset.error || metric.streak <= 1 || metric.streakIntensity === 0) return undefined;
+  if (asset.error || metric.streak === 0) return undefined;
 
   const colors = {
-    up: ["", "#b8d9c3", "#82bc97", "#4c9a6d", "#26784f"],
-    down: ["", "#eac6bf", "#dc9a8e", "#c96d60", "#ac443a"],
-    flat: ["", "", "", "", ""],
+    up: ["#d2ddd5", "#b8d9c3", "#82bc97", "#4c9a6d", "#26784f"],
+    down: ["#e2d0cd", "#eac6bf", "#dc9a8e", "#c96d60", "#ac443a"],
+    flat: ["#d2ddd5", "#d2ddd5", "#d2ddd5", "#d2ddd5", "#d2ddd5"],
   };
 
-  return colors[metric.streakDirection][metric.streakIntensity] || undefined;
+  return {
+    borderColor: colors[metric.streakDirection][metric.streakIntensity],
+    borderWidth: `${Math.min(metric.streak, 5)}px`,
+  };
 }
 
 function sortAssets(assets: MarketAsset[], mode: SortMode, range: MarketRange): MarketAsset[] {
@@ -126,7 +132,7 @@ function MarketTile({
   return (
     <button
       className={`market-tile ${tileTone(asset, range)}`}
-      style={{ borderColor: streakBorderColor(asset, range) }}
+      style={streakBorderStyle(asset, range)}
       type="button"
       onClick={() => onOpen(asset)}
       title={`${asset.name} · ${formatPrice(asset.price, asset.currency)} · ${formatPercent(metric.changePercent)} over ${range}`}
