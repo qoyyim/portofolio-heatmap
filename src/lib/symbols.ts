@@ -43,5 +43,5 @@ export const SYMBOLS: SymbolDefinition[] = [
   { symbol: "SOL-USD", name: "Solana", group: "crypto" },
   { symbol: "BNB-USD", name: "BNB", group: "crypto" },
   { symbol: "XRP-USD", name: "XRP", group: "crypto" },
-  { symbol: "DOGE-USD", name: "Dogecoin", group: "crypto" },
+  { symbol: "SUI-USD", name: "Sui", group: "crypto" },
 ];

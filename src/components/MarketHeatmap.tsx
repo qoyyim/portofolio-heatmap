@@ -81,6 +81,19 @@ function tileTone(asset: MarketAsset, range: MarketRange): string {
   return `tile--${metric.direction}-${metric.intensity}`;
 }
 
+function streakBorderColor(asset: MarketAsset, range: MarketRange): string | undefined {
+  const metric = asset.metrics[range];
+  if (asset.error || metric.streak <= 1 || metric.streakIntensity === 0) return undefined;
+
+  const colors = {
+    up: ["", "#b8d9c3", "#82bc97", "#4c9a6d", "#26784f"],
+    down: ["", "#eac6bf", "#dc9a8e", "#c96d60", "#ac443a"],
+    flat: ["", "", "", "", ""],
+  };
+
+  return colors[metric.streakDirection][metric.streakIntensity] || undefined;
+}
+
 function sortAssets(assets: MarketAsset[], mode: SortMode, range: MarketRange): MarketAsset[] {
   return [...assets].sort((left, right) => {
     const leftChange = left.metrics[range].changePercent;
@@ -113,6 +126,7 @@ function MarketTile({
   return (
     <button
       className={`market-tile ${tileTone(asset, range)}`}
+      style={{ borderColor: streakBorderColor(asset, range) }}
       type="button"
       onClick={() => onOpen(asset)}
       title={`${asset.name} · ${formatPrice(asset.price, asset.currency)} · ${formatPercent(metric.changePercent)} over ${range}`}
@@ -134,6 +148,9 @@ function MarketTile({
         <span className={`tile-streak tile-streak--${metric.streakDirection}`}>
           <StreakIcon size={11} />
           {metric.streak > 0 ? `${metric.streak}d` : "flat"}
+          {metric.streak > 1 && metric.streakChangePercent !== null && (
+            <span className="tile-streak-total">{formatPercent(metric.streakChangePercent)}</span>
+          )}
         </span>
       </span>
       {asset.error && <span className="tile-unavailable">quote unavailable</span>}
@@ -183,6 +200,9 @@ function AssetDetails({
           <div className="modal-metric">
             <span>CURRENT STREAK</span>
             <strong className={directionClass(metric.streakDirection)}>{streakLabel}</strong>
+            {metric.streak > 1 && metric.streakChangePercent !== null && (
+              <strong className={directionClass(metric.streakDirection)}>{formatPercent(metric.streakChangePercent)} total</strong>
+            )}
           </div>
         </div>
         {asset.error && <div className="modal-error">Yahoo Finance did not return a quote for this symbol: {asset.error}</div>}

@@ -27,13 +27,14 @@ test("longer ranges return null when there is not enough history", () => {
 });
 
 test("counts consecutive rises and falls, stopping when direction changes", () => {
-  assert.deepEqual(calculateStreak(candles([10, 11, 12, 11, 10])), {
-    count: 2,
-    direction: "down",
-  });
+  const downStreak = calculateStreak(candles([10, 11, 12, 11, 10]));
+  assert.equal(downStreak.count, 2);
+  assert.equal(downStreak.direction, "down");
+  assert.ok(Math.abs(downStreak.changePercent! - (10 / 12 - 1) * 100) < 1e-10);
   assert.deepEqual(calculateStreak(candles([10, 11, 12, 13])), {
     count: 3,
     direction: "up",
+    changePercent: 30,
   });
 });
 
@@ -41,10 +42,12 @@ test("flat and missing closes terminate a streak", () => {
   assert.deepEqual(calculateStreak(candles([10, 11, 11, 12])), {
     count: 1,
     direction: "up",
+    changePercent: 9.090909090909092,
   });
   assert.deepEqual(calculateStreak(candles([10, 11, null, 12])), {
     count: 0,
     direction: "flat",
+    changePercent: null,
   });
 });
 

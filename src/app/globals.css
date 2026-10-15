@@ -90,6 +90,7 @@ button { color: inherit; }
 .tile-name { min-width: 0; overflow: hidden; color: #506258; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
 .tile-streak { flex: 0 0 auto; gap: 3px; color: #51685b; font-family: var(--mono); font-size: 8px; white-space: nowrap; }
 .tile-streak--down { color: #9c443c; } .tile-streak--up { color: #1d704e; } .tile-streak--flat { color: #89958e; }
+.tile-streak-total { margin-left: 2px; font-weight: 500; }
 .tile-unavailable { position: absolute; top: 34px; right: 11px; color: #8d6c3c; font-family: var(--mono); font-size: 8px; }
 .empty-state,.loading-state,.error-banner { border: 1px solid var(--line); border-radius: 5px; background: rgba(255,255,255,.9); }
 .empty-state { padding: 46px 20px; color: #73817b; text-align: center; }

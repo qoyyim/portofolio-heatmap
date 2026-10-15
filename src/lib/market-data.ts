@@ -49,6 +49,8 @@ function emptyMetrics(): Record<MarketRange, HeatmapMetrics> {
     intensity: 0 as const,
     streak: 0,
     streakDirection: "flat" as const,
+    streakChangePercent: null,
+    streakIntensity: 0 as const,
   };
 
   return { "1D": flat, "1W": flat, "1M": flat };

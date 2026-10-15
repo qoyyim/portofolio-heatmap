@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Porto Market Heatmap
 
-## Getting Started
+A responsive market heatmap for a curated set of US equities, Indonesian IDX listings, and major cryptocurrency pairs. Tile color reflects the selected period return; the arrow and session count show the current streak of completed daily closes.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. The app fetches market data from a server-side Next.js route and refreshes automatically every 90 seconds. Use the refresh button to request new quotes immediately.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Controls
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Select `1D`, `1W`, or `1M` to change the percentage return shown on tiles.
+- Toggle `US`, `ID`, or `Crypto` to filter market groups.
+- Search by ticker or company name, or choose a sort order.
+- Select a tile to see its price, quote time, selected-period return, and current streak.
 
-## Learn More
+The editable starter universe is in `src/lib/symbols.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+## Data notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This app uses `yahoo-finance2` on the server; Yahoo requests are not made from the browser. The integration is an unofficial community client, not an official Yahoo Finance API. Yahoo may change or limit its endpoints, symbols may be unavailable, and returned quotes may be delayed. This dashboard is for informational/personal use, not trading or commercial market-data distribution. Review Yahoo's current data terms before relying on it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The starter list uses Yahoo `.JK` symbols for Indonesia and USD pairs for crypto. Return windows use daily closes: `1W` uses five sessions and `1M` uses 21 sessions. Streaks count consecutive completed daily closes moving in the same direction; a flat or missing close ends the streak. Current/incomplete daily candles are excluded from streaks.
 
-## Deploy on Vercel
+## Checks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+npm run build
+```
