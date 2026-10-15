@@ -17,7 +17,7 @@ import type { MarketAsset, MarketPayload } from "@/lib/market-data";
 import type { MarketDirection, MarketRange } from "@/lib/heatmap";
 import { MARKET_GROUPS, type MarketGroupId } from "@/lib/symbols";
 
-type SortMode = "change" | "gainers" | "losers" | "ticker";
+type SortMode = "added" | "change" | "gainers" | "losers" | "ticker";
 
 async function requestMarketData(forceRefresh = false): Promise<MarketPayload> {
   const response = await fetch(`/api/heatmap${forceRefresh ? "?refresh=1" : ""}`, {
@@ -101,6 +101,8 @@ function streakBorderStyle(asset: MarketAsset, range: MarketRange): {
 }
 
 function sortAssets(assets: MarketAsset[], mode: SortMode, range: MarketRange): MarketAsset[] {
+  if (mode === "added") return assets;
+
   return [...assets].sort((left, right) => {
     const leftChange = left.metrics[range].changePercent;
     const rightChange = right.metrics[range].changePercent;
@@ -378,6 +380,7 @@ export default function MarketHeatmap() {
           <label className="sort-control">
             <span className="control-label">SORT</span>
             <select aria-label="Sort assets" value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
+              <option value="added">As added</option>
               <option value="change">Biggest moves</option>
               <option value="gainers">Top gainers</option>
               <option value="losers">Top losers</option>
