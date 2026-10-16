@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Clock3,
   Database,
+  ExternalLink,
   LoaderCircle,
   Minus,
   RefreshCw,
@@ -73,6 +74,16 @@ function formatTime(value: string | null | undefined): string {
 
 function directionClass(direction: MarketDirection): string {
   return direction === "up" ? "text-up" : direction === "down" ? "text-down" : "text-flat";
+}
+
+function getResearchLinks(symbol: string) {
+  const query = encodeURIComponent(symbol);
+
+  return [
+    { label: "Yahoo Finance", href: `https://finance.yahoo.com/quote/${query}/` },
+    { label: "TradingView", href: `https://www.tradingview.com/search/?query=${query}` },
+    { label: "Investing.com", href: `https://www.investing.com/search/?q=${query}` },
+  ];
 }
 
 function tileTone(asset: MarketAsset, range: MarketRange): string {
@@ -213,6 +224,14 @@ function AssetDetails({
             )}
           </div>
         </div>
+        <nav className="research-links" aria-label={`${asset.name} research links`}>
+          {getResearchLinks(asset.symbol).map((link) => (
+            <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+              <ExternalLink size={12} aria-hidden="true" />
+            </a>
+          ))}
+        </nav>
         {asset.error && <div className="modal-error">Yahoo Finance did not return a quote for this symbol: {asset.error}</div>}
       </section>
     </div>

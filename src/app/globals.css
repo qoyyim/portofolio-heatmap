@@ -113,6 +113,10 @@ button { color: inherit; }
 .modal-metric { flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; gap: 7px; padding: 12px; border: 1px solid #e2e9e4; border-radius: 3px; background: white; }
 .modal-metric span { color: #7d8a83; font-family: var(--mono); font-size: 8px; }
 .modal-metric strong { font-family: var(--mono); font-size: 14px; font-weight: 500; }
+.research-links { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 17px; }
+.research-links a { display: inline-flex; align-items: center; gap: 7px; min-height: 33px; padding: 0 10px; border: 1px solid #dfe7e2; border-radius: 3px; background: #fff; color: #315a43; font-family: var(--mono); font-size: 9px; text-decoration: none; transition: background 120ms ease,border-color 120ms ease; }
+.research-links a:hover { border-color: #9db9a7; background: #eff6f0; }
+.research-links a:focus-visible { outline: 2px solid #2c8156; outline-offset: 2px; }
 .text-up { color: #16724d; } .text-down { color: #ad443a; } .text-flat { color: #73817b; }
 .modal-error { margin-top: 17px; padding: 11px; border-left: 2px solid #bd8051; background: #faf3e9; color: #785a3c; font-size: 11px; }
 @media (max-width: 1050px) { .dashboard-shell { padding-right: 24px; padding-left: 24px; } .controls-panel { align-items: stretch; flex-direction: column; } .control-left,.control-right { justify-content: space-between; } .control-right { justify-content: flex-end; } .search-box { flex: 1; } }
